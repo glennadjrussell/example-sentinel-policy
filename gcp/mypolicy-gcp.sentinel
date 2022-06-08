@@ -1,3 +1,16 @@
+#
+# Common functions
+# ----------------
+#
+# Things we want present in all modules, regardless of target cloud.
+#
+module "mypolicy-common" {
+	source = "../common/all.sentinel"
+}
+
+#
+# Specific policies for GCP
+#
 policy "mycompany-gcp-compute-1.0-no-default-sa" {
     source = "./compute/gcp-compute-mypolicy-1.0-no-default-service-account/gcp-compute-mypolicy-1.0-no-default-service-account.sentinel"
     enforcement_level = "advisory"
