@@ -1,0 +1,9 @@
+policy "mycompany-gcp-compute-1.0-no-default-sa" {
+    source = "./compute/gcp-compute-mypolicy-1.0-no-default-service-account/gcp-compute-mypolicy-1.0-no-default-service-account.sentinel"
+    enforcement_level = "advisory"
+}
+
+#
+# Add new policies here
+#
+
