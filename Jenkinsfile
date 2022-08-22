@@ -33,9 +33,11 @@ pipeline {
 
 	stage('Configure TfE workspace') {
 	    steps {
-		def response = httpRequest 'https://app.terraform.io/api/v2/organizations/metasast/workspaces'
-		println("Status: "+response.status)
-		println("Content: "+response.content)
+	    	script {
+		    def response = httpRequest 'https://app.terraform.io/api/v2/organizations/metasast/workspaces'
+		    println("Status: "+response.status)
+		    println("Content: "+response.content)
+		}
 	    }
 	}
     }
