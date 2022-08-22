@@ -9,19 +9,19 @@ pipeline {
 
 	stage('Run terraform init') {
 	    steps {
-	        sh "terraform init -input=false"
+	        sh "echo terraform init -input=false"
 	    }
 	}
 
 	stage('Run terraform plan') {
 	    steps {
-	        sh "terraform plan -input=false -out tfplan"
+	        sh "echo terraform plan -input=false -out tfplan"
 	    }
 	}
 
 	stage('Run terraform apply') {
 	    steps {
-	        sh "terraform apply -input=false tfplan"
+	        sh "echo terraform apply -input=false tfplan"
 	    }
 	}
 
