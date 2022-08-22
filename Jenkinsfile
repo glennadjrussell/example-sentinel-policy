@@ -35,7 +35,8 @@ pipeline {
 	    steps {
 	    	script {
 		    withCredentials([string(credentialsId: 'TF_CLOUD_TOKEN', variable: 'auth')]) {
-		        def response = httpRequest url: 'https://app.terraform.io/api/v2/organizations/metasast/workspaces', customHeaders:[[name:'Authorization', value:"Basic ${auth}"]]
+		        String authb64 = auth.bytes.encodeBase64().toString()
+		        def response = httpRequest url: 'https://app.terraform.io/api/v2/organizations/metasast/workspaces', customHeaders:[[name:'Authorization', value:"Basic ${authb64}"]]
 		        println("Status: "+response.status)
 		        println("Content: "+response.content)
 		    }
