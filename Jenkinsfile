@@ -58,7 +58,7 @@ pipeline {
 		    """
 
 		    withCredentials([string(credentialsId: 'TF_CLOUD_TOKEN', variable: 'auth')]) {
-		        def response = httpRequest contentType: 'APPLICATION_JSON', url: 'https://app.terraform.io/api/v2/organizations/metasast/workspaces', customHeaders:[[name:'Authorization', value:"Bearer ${auth}"]], httpMode: 'POST', requestBody: bdy
+		        def response = httpRequest url: 'https://app.terraform.io/api/v2/organizations/metasast/workspaces', customHeaders:[[name:'Authorization', value:"Bearer ${auth}"], [name: 'Content-Type', value: "application/vnd.api+json"]], httpMode: 'POST', requestBody: bdy
 		        println("Status: "+response.status)
 		        println("Content: "+response.content)
 		    }
@@ -70,7 +70,7 @@ pipeline {
 	    steps {
 	    	script {
 		    withCredentials([string(credentialsId: 'TF_CLOUD_TOKEN', variable: 'auth')]) {
-		        def response = httpRequest url: 'https://app.terraform.io/api/v2/organizations/metasast/workspaces', customHeaders:[[name:'Authorization', value:"Bearer ${auth}"]]
+		        def response = httpRequest url: 'https://app.terraform.io/api/v2/organizations/metasast/workspaces', customHeaders:[[name:'Authorization', value:"Bearer ${auth}"], [name: 'Content-Type', value: "application/vnd.api+json"]]
 		        println("Status: "+response.status)
 		        println("Content: "+response.content)
 		    }
