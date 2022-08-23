@@ -1,4 +1,8 @@
 pipeline {
+    parameters {
+        booleanParam(name: 'workspace_exists', defaultValue: true)
+    }
+
     agent any
     stages {
         stage('Checkout') {
@@ -28,6 +32,37 @@ pipeline {
 	stage('Run static sentinel tests') {
 	    steps {
 	        sh "echo some sentinel tests"
+	    }
+	}
+
+	stage('Create/update TfE workspace') {
+	    when {
+	        expression {
+		    return params.workspace_exists
+		}
+	    }
+
+	    steps {
+	    	script {
+		    def bdy = """
+		    {
+                        "data": {
+                            "attributes": {
+                                "name": "workspace-creation-test-1",
+                                "resource-count": 0,
+                                "updated-at": "2017-11-29T19:18:09.976Z"
+                            },
+                            "type": "workspaces"
+                        }
+                    }
+		    """
+
+		    withCredentials([string(credentialsId: 'TF_CLOUD_TOKEN', variable: 'auth')]) {
+		        def response = httpRequest url: 'https://app.terraform.io/api/v2/organizations/metasast/workspaces', customHeaders:[[name:'Authorization', value:"Bearer ${auth}"]], httpMode: 'POST', requestBody: bdy
+		        println("Status: "+response.status)
+		        println("Content: "+response.content)
+		    }
+		}
 	    }
 	}
 
